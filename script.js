@@ -2,7 +2,7 @@
 (() => {
   const STORAGE_KEY = 'mizunara-state-v1';
   const SETTINGS_KEY = 'mizunara-settings-v1';
-  const DEFAULT_SETTINGS = { mode: 'cpu', level: 1, pieceStyle: 'wood' };
+  const DEFAULT_SETTINGS = { mode: 'cpu', level: 1, pieceStyle: 'wood', uiFont: 'default' };
 
   let settings = loadSettings();
   let state = null;
@@ -34,6 +34,9 @@
   }
   function applyPieceStyle() {
     document.documentElement.setAttribute('data-piece-style', settings.pieceStyle);
+  }
+  function applyUiFont() {
+    document.documentElement.setAttribute('data-ui-font', settings.uiFont);
   }
 
   function serializeState(s) {
@@ -330,6 +333,9 @@
     document.querySelectorAll('#piece-style-seg .seg-btn').forEach(b => {
       b.classList.toggle('active', b.dataset.pieceStyle === settings.pieceStyle);
     });
+    document.querySelectorAll('#ui-font-seg .seg-btn').forEach(b => {
+      b.classList.toggle('active', b.dataset.uiFont === settings.uiFont);
+    });
   }
   document.querySelectorAll('#mode-seg .seg-btn').forEach(b => {
     b.addEventListener('click', () => { settings.mode = b.dataset.mode; syncMenuUi(); });
@@ -345,6 +351,14 @@
       syncMenuUi();
     });
   });
+  document.querySelectorAll('#ui-font-seg .seg-btn').forEach(b => {
+    b.addEventListener('click', () => {
+      settings.uiFont = b.dataset.uiFont;
+      saveSettings();
+      applyUiFont();
+      syncMenuUi();
+    });
+  });
 
   document.getElementById('result-close').addEventListener('click', () => {
     resultModal.classList.add('hidden');
@@ -356,6 +370,7 @@
 
   // ---------- boot ----------
   applyPieceStyle();
+  applyUiFont();
   const restored = loadGame();
   if (restored) {
     state = restored;

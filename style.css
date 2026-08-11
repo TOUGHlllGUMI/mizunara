@@ -32,6 +32,14 @@
   --piece-gote-color: var(--gote-color);
   --piece-promoted-color: var(--accent);
   --piece-promoted-gote-color: #ff8a75;
+
+  --ui-font: "Zen Kaku Gothic New", "Hiragino Sans", "Yu Gothic", Meiryo, sans-serif;
+  --ui-font-weight: 500;
+}
+
+:root[data-ui-font="yugo-bold"] {
+  --ui-font: "Yu Gothic", "YuGothic", "游ゴシック体", "游ゴシック", "Yu Gothic UI", Meiryo, sans-serif;
+  --ui-font-weight: 700;
 }
 
 :root[data-piece-style="flat"] {
@@ -117,7 +125,8 @@ html, body {
   min-height: 100%;
   background: radial-gradient(ellipse at top, var(--bg-1), var(--bg-0) 70%);
   color: var(--text-0);
-  font-family: "Zen Kaku Gothic New", "Hiragino Sans", "Yu Gothic", Meiryo, sans-serif;
+  font-family: var(--ui-font);
+  font-weight: var(--ui-font-weight);
   overscroll-behavior: none;
   -webkit-tap-highlight-color: transparent;
 }

@@ -116,10 +116,21 @@
         }
 
         if (piece) {
-          const pieceEl = document.createElement('div');
-          pieceEl.className = 'piece ' + piece.owner + (piece.promoted ? ' promoted' : '');
-          pieceEl.textContent = displayName(piece);
-          cell.appendChild(pieceEl);
+          if (piece.type === 'OU' && piece.owner === 'sente') {
+            const pieceEl = document.createElement('div');
+            pieceEl.className = 'piece piece-art sente';
+            const img = document.createElement('img');
+            img.src = 'assets/king-sente.png';
+            img.alt = '王将';
+            img.draggable = false;
+            pieceEl.appendChild(img);
+            cell.appendChild(pieceEl);
+          } else {
+            const pieceEl = document.createElement('div');
+            pieceEl.className = 'piece ' + piece.owner + (piece.promoted ? ' promoted' : '');
+            pieceEl.textContent = displayName(piece);
+            cell.appendChild(pieceEl);
+          }
         }
         cell.addEventListener('click', onCellClick);
         boardEl.appendChild(cell);

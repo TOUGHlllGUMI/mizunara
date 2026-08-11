@@ -1,16 +1,19 @@
-"""Generate Mizunara app icons: a wood shogi koma (piece) on a warm wood-grain background."""
+"""Regenerate the app icon: gold koma pentagon on the wood background, with the
+王 glyph rendered in the same GN-KillGothic-U font used for the logo wordmark.
+The font file itself is NOT bundled in the repo (license asks not to redistribute
+the file) - this script expects it to be available locally at FONT_PATH.
+"""
 import math
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
-SIZE = 512
-FONT_PATH = r"C:\Windows\Fonts\yumindb.ttf"
+FONT_PATH = r"C:\Users\user\AppData\Local\Microsoft\Windows\Fonts\GN-KillGothic-U-KanaNA.ttf"
 
 
 def lerp(a, b, t):
     return a + (b - a) * t
 
 
-def make_background(size):
+def wood_bg(size):
     img = Image.new("RGB", (size, size))
     px = img.load()
     top = (58, 38, 20)
@@ -23,7 +26,6 @@ def make_background(size):
         for x in range(size):
             px[x, y] = (r, g, b)
 
-    # subtle wood grain: wavy horizontal lines
     grain = Image.new("L", (size, size), 0)
     gpx = grain.load()
     for y in range(size):
@@ -34,9 +36,7 @@ def make_background(size):
             gpx[x, y] = max(0, min(60, int(v)))
     grain = grain.filter(ImageFilter.GaussianBlur(1.2))
     img = Image.composite(Image.new("RGB", (size, size), (90, 60, 30)), img, grain)
-
-    # rounded-square mask with soft vignette corners handled by caller
-    return img
+    return img.convert("RGBA")
 
 
 def rounded_mask(size, radius):
@@ -47,7 +47,6 @@ def rounded_mask(size, radius):
 
 
 def koma_polygon(cx, cy, w, h):
-    # pentagon "house" shape pointing up, like a shogi piece
     top = (cx, cy - h * 0.52)
     right_shoulder = (cx + w * 0.44, cy - h * 0.22)
     bottom_right = (cx + w * 0.5, cy + h * 0.5)
@@ -57,11 +56,8 @@ def koma_polygon(cx, cy, w, h):
 
 
 def draw_koma(img, cx, cy, w, h):
-    layer = Image.new("RGBA", img.size, (0, 0, 0, 0))
-    d = ImageDraw.Draw(layer)
     poly = koma_polygon(cx, cy, w, h)
 
-    # soft drop shadow
     shadow = Image.new("RGBA", img.size, (0, 0, 0, 0))
     sd = ImageDraw.Draw(shadow)
     shifted = [(x, y + 14) for x, y in poly]
@@ -69,7 +65,6 @@ def draw_koma(img, cx, cy, w, h):
     shadow = shadow.filter(ImageFilter.GaussianBlur(14))
     img.alpha_composite(shadow)
 
-    # gradient-filled piece body via vertical bands
     top_y = min(p[1] for p in poly)
     bot_y = max(p[1] for p in poly)
     grad = Image.new("RGBA", img.size, (0, 0, 0, 0))
@@ -94,7 +89,6 @@ def draw_koma(img, cx, cy, w, h):
     md.polygon(poly, fill=255)
     img.paste(grad, (0, 0), mask)
 
-    # bevel edge highlight
     outline = Image.new("RGBA", img.size, (0, 0, 0, 0))
     od = ImageDraw.Draw(outline)
     od.polygon(poly, outline=(90, 58, 24, 255), width=5)
@@ -117,20 +111,19 @@ def draw_char(img, cx, cy, text, size, color):
     w = bbox[2] - bbox[0]
     h = bbox[3] - bbox[1]
     pos = (cx - w / 2 - bbox[0], cy - h / 2 - bbox[1])
-    # subtle engraved shadow then main stroke
     d.text((pos[0] + 2, pos[1] + 3), text, font=font, fill=(30, 16, 6, 130))
     d.text(pos, text, font=font, fill=color)
     img.alpha_composite(layer)
 
 
 def build(size, radius, maskless=False):
-    bg = make_background(size)
-    img = bg.convert("RGBA")
+    bg = wood_bg(size)
+    img = bg
 
     cx, cy = size * 0.5, size * 0.53
     w, h = size * 0.62, size * 0.72
     draw_koma(img, cx, cy, w, h)
-    draw_char(img, cx, cy + size * 0.02, "王", int(size * 0.34), (120, 26, 20, 255))
+    draw_char(img, cx, cy + size * 0.02, "王", int(size * 0.34), (122, 26, 20, 255))
 
     if not maskless:
         mask = rounded_mask(size, radius)
@@ -141,14 +134,7 @@ def build(size, radius, maskless=False):
 
 
 if __name__ == "__main__":
-    icon512 = build(512, 96)
-    icon512.save("icons/icon-512.png")
-
-    icon192 = build(192, 36)
-    icon192.save("icons/icon-192.png")
-
-    # maskable icon: full-bleed background, no rounding (safe-zone padding built into layout)
-    maskable = build(512, 0, maskless=True)
-    maskable.save("icons/icon-maskable-512.png")
-
+    build(512, 96).save("icons/icon-512.png")
+    build(192, 36).save("icons/icon-192.png")
+    build(512, 0, maskless=True).save("icons/icon-maskable-512.png")
     print("icons written")

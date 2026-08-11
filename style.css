@@ -197,7 +197,11 @@ html, body {
   font-size: 17px;
   color: var(--sente-color);
 }
-.hand-piece.gote .hp-name { color: var(--gote-color); }
+.hand-piece.gote .hp-name {
+  color: var(--gote-color);
+  display: inline-block;
+  transform: rotate(180deg);
+}
 .hp-count {
   position: absolute;
   bottom: -4px;

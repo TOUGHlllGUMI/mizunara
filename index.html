@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Mizunara 将棋</title>
+<meta name="theme-color" content="#3a2b1e">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=Shippori+Mincho:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app">
+
+  <header class="topbar">
+    <h1 class="logo">Mizunara <span class="logo-sub">水楢</span></h1>
+    <div class="topbar-buttons">
+      <button id="btn-undo" class="icon-btn" title="待った">↶</button>
+      <button id="btn-new" class="icon-btn" title="新しい対局">⟳</button>
+      <button id="btn-menu" class="icon-btn" title="設定">☰</button>
+    </div>
+  </header>
+
+  <div class="status-bar">
+    <span id="turn-indicator" class="turn-indicator sente">先手番</span>
+    <span id="check-indicator" class="check-indicator hidden">王手！</span>
+    <span id="move-count">手数: 0</span>
+  </div>
+
+  <main class="board-area">
+    <div class="hand hand-gote" id="hand-gote"></div>
+
+    <div class="board-wrap">
+      <div class="board" id="board"></div>
+    </div>
+
+    <div class="hand hand-sente" id="hand-sente"></div>
+  </main>
+
+  <div id="promote-modal" class="modal hidden">
+    <div class="modal-card">
+      <p>成りますか？</p>
+      <div class="modal-buttons">
+        <button id="promote-yes">成る</button>
+        <button id="promote-no">成らない</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="result-modal" class="modal hidden">
+    <div class="modal-card">
+      <p id="result-text">対局終了</p>
+      <div class="modal-buttons">
+        <button id="result-close">閉じる</button>
+        <button id="result-new">新しい対局</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="menu-modal" class="modal hidden">
+    <div class="modal-card menu-card">
+      <p class="menu-title">対局設定</p>
+      <div class="menu-row">
+        <span>モード</span>
+        <div class="seg" id="mode-seg">
+          <button data-mode="cpu" class="seg-btn active">対CPU</button>
+          <button data-mode="2p" class="seg-btn">2人対戦</button>
+        </div>
+      </div>
+      <div class="menu-row">
+        <span>CPUの強さ</span>
+        <div class="seg" id="level-seg">
+          <button data-level="1" class="seg-btn active">お手やわらかに</button>
+          <button data-level="2" class="seg-btn">ふつう</button>
+        </div>
+      </div>
+      <div class="modal-buttons">
+        <button id="menu-apply">この設定で新規対局</button>
+        <button id="menu-close">閉じる</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast hidden" id="toast"></div>
+</div>
+
+<script src="rules.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

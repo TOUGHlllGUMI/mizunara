@@ -37,11 +37,6 @@
   --ui-font-weight: 500;
 }
 
-:root[data-ui-font="yugo-bold"] {
-  --ui-font: "Yu Gothic", "YuGothic", "游ゴシック体", "游ゴシック", "Yu Gothic UI", Meiryo, sans-serif;
-  --ui-font-weight: 700;
-}
-
 :root[data-piece-style="flat"] {
   --piece-bg: linear-gradient(160deg, #fbf3df, #e7d6ab);
   --piece-clip: none;
@@ -81,6 +76,15 @@
   --piece-gote-color: #9c1f1f;
   --piece-promoted-color: #b23b2b;
   --piece-promoted-gote-color: #e0503a;
+}
+
+:root[data-ui-font="yugo-bold"] {
+  --ui-font: "Yu Gothic", "YuGothic", "游ゴシック体", "游ゴシック", "Yu Gothic UI", Meiryo, sans-serif;
+  --ui-font-weight: 700;
+  --piece-font: var(--ui-font);
+  --piece-writing-mode: horizontal-tb;
+  --piece-letter-spacing: 0;
+  --piece-padding-top: 0;
 }
 
 :root[data-theme="light"] {

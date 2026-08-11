@@ -222,8 +222,8 @@ html, body {
 
 .board {
   display: grid;
-  grid-template-columns: repeat(9, 1fr);
-  grid-template-rows: repeat(9, 1fr);
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+  grid-template-rows: repeat(9, minmax(0, 1fr));
   width: min(88vw, 460px);
   height: min(88vw, 460px);
   background: var(--board);
@@ -233,11 +233,14 @@ html, body {
 
 .cell {
   position: relative;
+  min-width: 0;
+  min-height: 0;
   border: 1px solid var(--board-line);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  overflow: hidden;
 }
 
 .cell.last-to { background: rgba(255, 214, 110, 0.35); }
@@ -264,6 +267,9 @@ html, body {
 .piece {
   width: 88%;
   height: 88%;
+  min-width: 0;
+  min-height: 0;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;

@@ -32,10 +32,10 @@ function initialBoard() {
     b[0][c] = { type: backRow[c], owner: 'gote', promoted: false };
     b[8][c] = { type: backRow[c], owner: 'sente', promoted: false };
   }
-  b[1][1] = { type: 'KA', owner: 'gote', promoted: false };
-  b[1][7] = { type: 'HI', owner: 'gote', promoted: false };
-  b[7][1] = { type: 'HI', owner: 'sente', promoted: false };
-  b[7][7] = { type: 'KA', owner: 'sente', promoted: false };
+  b[1][1] = { type: 'HI', owner: 'gote', promoted: false };
+  b[1][7] = { type: 'KA', owner: 'gote', promoted: false };
+  b[7][1] = { type: 'KA', owner: 'sente', promoted: false };
+  b[7][7] = { type: 'HI', owner: 'sente', promoted: false };
   for (let c = 0; c < 9; c++) {
     b[2][c] = { type: 'FU', owner: 'gote', promoted: false };
     b[6][c] = { type: 'FU', owner: 'sente', promoted: false };

@@ -2,6 +2,7 @@
 (() => {
   const STORAGE_KEY = 'mizunara-state-v1';
   const SETTINGS_KEY = 'mizunara-settings-v1';
+  const DEFAULT_SETTINGS = { mode: 'cpu', level: 1, pieceStyle: 'wood' };
 
   let settings = loadSettings();
   let state = null;
@@ -24,12 +25,15 @@
   function loadSettings() {
     try {
       const raw = localStorage.getItem(SETTINGS_KEY);
-      if (raw) return JSON.parse(raw);
+      if (raw) return { ...DEFAULT_SETTINGS, ...JSON.parse(raw) };
     } catch (e) {}
-    return { mode: 'cpu', level: 1 };
+    return { ...DEFAULT_SETTINGS };
   }
   function saveSettings() {
     localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+  }
+  function applyPieceStyle() {
+    document.documentElement.setAttribute('data-piece-style', settings.pieceStyle);
   }
 
   function serializeState(s) {
@@ -323,12 +327,23 @@
     document.querySelectorAll('#level-seg .seg-btn').forEach(b => {
       b.classList.toggle('active', b.dataset.level === String(settings.level));
     });
+    document.querySelectorAll('#piece-style-seg .seg-btn').forEach(b => {
+      b.classList.toggle('active', b.dataset.pieceStyle === settings.pieceStyle);
+    });
   }
   document.querySelectorAll('#mode-seg .seg-btn').forEach(b => {
     b.addEventListener('click', () => { settings.mode = b.dataset.mode; syncMenuUi(); });
   });
   document.querySelectorAll('#level-seg .seg-btn').forEach(b => {
     b.addEventListener('click', () => { settings.level = +b.dataset.level; syncMenuUi(); });
+  });
+  document.querySelectorAll('#piece-style-seg .seg-btn').forEach(b => {
+    b.addEventListener('click', () => {
+      settings.pieceStyle = b.dataset.pieceStyle;
+      saveSettings();
+      applyPieceStyle();
+      syncMenuUi();
+    });
   });
 
   document.getElementById('result-close').addEventListener('click', () => {
@@ -340,6 +355,7 @@
   });
 
   // ---------- boot ----------
+  applyPieceStyle();
   const restored = loadGame();
   if (restored) {
     state = restored;

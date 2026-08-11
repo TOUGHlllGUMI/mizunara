@@ -19,6 +19,60 @@
   --legal-move: rgba(90, 200, 120, 0.55);
   --legal-capture: rgba(220, 80, 60, 0.55);
   --sel: rgba(255, 210, 90, 0.65);
+
+  --piece-bg: linear-gradient(160deg, var(--wood-light), #d9b877 60%, var(--wood-mid));
+  --piece-clip: polygon(50% 0%, 88% 18%, 100% 100%, 0% 100%, 12% 18%);
+  --piece-radius: 0;
+  --piece-border: none;
+  --piece-font: "Shippori Mincho", serif;
+  --piece-writing-mode: vertical-rl;
+  --piece-letter-spacing: -1px;
+  --piece-padding-top: 2px;
+  --piece-sente-color: var(--sente-color);
+  --piece-gote-color: var(--gote-color);
+  --piece-promoted-color: var(--accent);
+  --piece-promoted-gote-color: #ff8a75;
+}
+
+:root[data-piece-style="flat"] {
+  --piece-bg: linear-gradient(160deg, #fbf3df, #e7d6ab);
+  --piece-clip: none;
+  --piece-radius: 22%;
+  --piece-border: 1px solid #b99a5c;
+  --piece-font: "Zen Kaku Gothic New", "Hiragino Sans", "Yu Gothic", sans-serif;
+  --piece-writing-mode: horizontal-tb;
+  --piece-letter-spacing: 0;
+  --piece-padding-top: 0;
+}
+
+:root[data-piece-style="ink"] {
+  --piece-bg: linear-gradient(160deg, #3f3327, #17110b);
+  --piece-clip: polygon(50% 0%, 88% 18%, 100% 100%, 0% 100%, 12% 18%);
+  --piece-radius: 0;
+  --piece-border: none;
+  --piece-font: "Shippori Mincho", serif;
+  --piece-writing-mode: vertical-rl;
+  --piece-letter-spacing: -1px;
+  --piece-padding-top: 2px;
+  --piece-sente-color: #f0cf8a;
+  --piece-gote-color: #ff8f6b;
+  --piece-promoted-color: #ffb238;
+  --piece-promoted-gote-color: #ff5b4a;
+}
+
+:root[data-piece-style="ivory"] {
+  --piece-bg: linear-gradient(160deg, #fffaf0, #f1e8d2);
+  --piece-clip: none;
+  --piece-radius: 16%;
+  --piece-border: 1.5px solid #cbb37c;
+  --piece-font: "Shippori Mincho", serif;
+  --piece-writing-mode: vertical-rl;
+  --piece-letter-spacing: -1px;
+  --piece-padding-top: 2px;
+  --piece-sente-color: #1c1c1c;
+  --piece-gote-color: #9c1f1f;
+  --piece-promoted-color: #b23b2b;
+  --piece-promoted-gote-color: #e0503a;
 }
 
 :root[data-theme="light"] {
@@ -181,7 +235,7 @@ html, body {
   width: 40px; height: 40px;
   border-radius: 8px;
   cursor: pointer;
-  background: linear-gradient(160deg, var(--wood-light), var(--wood-mid));
+  background: var(--piece-bg);
   border: 1px solid var(--wood-dark);
   box-shadow: 0 2px 4px var(--shadow);
   transition: transform 0.1s ease;
@@ -192,13 +246,13 @@ html, body {
   outline-offset: 2px;
 }
 .hand-piece .hp-name {
-  font-family: "Shippori Mincho", serif;
+  font-family: var(--piece-font);
   font-weight: 700;
   font-size: 17px;
-  color: var(--sente-color);
+  color: var(--piece-sente-color);
 }
 .hand-piece.gote .hp-name {
-  color: var(--gote-color);
+  color: var(--piece-gote-color);
   display: inline-block;
   transform: rotate(180deg);
 }
@@ -277,24 +331,26 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: "Shippori Mincho", serif;
+  font-family: var(--piece-font);
   font-weight: 700;
   font-size: clamp(14px, 3.6vw, 20px);
-  color: var(--sente-color);
-  background: linear-gradient(160deg, var(--wood-light), #d9b877 60%, var(--wood-mid));
-  clip-path: polygon(50% 0%, 88% 18%, 100% 100%, 0% 100%, 12% 18%);
+  color: var(--piece-sente-color);
+  background: var(--piece-bg);
+  border: var(--piece-border);
+  border-radius: var(--piece-radius);
+  clip-path: var(--piece-clip);
   box-shadow: 0 2px 3px rgba(0,0,0,0.35);
   user-select: none;
-  writing-mode: vertical-rl;
-  letter-spacing: -1px;
-  padding-top: 2px;
+  writing-mode: var(--piece-writing-mode);
+  letter-spacing: var(--piece-letter-spacing);
+  padding-top: var(--piece-padding-top);
 }
 .piece.gote {
   transform: rotate(180deg);
-  color: var(--gote-color);
+  color: var(--piece-gote-color);
 }
-.piece.promoted { color: var(--accent); }
-.piece.gote.promoted { color: #ff8a75; }
+.piece.promoted { color: var(--piece-promoted-color); }
+.piece.gote.promoted { color: var(--piece-promoted-gote-color); }
 
 .modal {
   position: fixed;
@@ -343,6 +399,11 @@ html, body {
   font-size: 14px;
   color: var(--text-1);
   gap: 10px;
+}
+.menu-row.menu-row-wrap {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
 }
 .seg { display: flex; gap: 6px; flex-wrap: wrap; }
 .seg-btn {

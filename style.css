@@ -151,18 +151,13 @@ html, body {
 }
 
 .logo {
-  font-family: "Shippori Mincho", serif;
-  font-weight: 700;
-  font-size: clamp(20px, 5vw, 28px);
   margin: 0;
-  letter-spacing: 0.02em;
-  color: var(--text-0);
+  line-height: 0;
 }
-.logo-sub {
-  font-size: 0.55em;
-  color: var(--text-1);
-  margin-left: 6px;
-  font-weight: 500;
+.logo-img {
+  height: clamp(26px, 6.5vw, 38px);
+  width: auto;
+  display: block;
 }
 
 .topbar-buttons { display: flex; gap: 8px; }

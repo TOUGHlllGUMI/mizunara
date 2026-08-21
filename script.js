@@ -184,6 +184,12 @@
         executeSelectedAction(r, c);
         return;
       }
+      // clicking the already-selected piece again deselects it
+      if (selected.kind === 'board' && selected.r === r && selected.c === c) {
+        selected = null;
+        renderBoard();
+        return;
+      }
       // clicking another own piece re-selects
       if (piece && piece.owner === state.turn) {
         selectBoardPiece(r, c);
@@ -207,6 +213,11 @@
   function onHandClick(owner, type) {
     if (!humanCanAct()) return;
     if (owner !== state.turn) return;
+    if (selected && selected.kind === 'hand' && selected.owner === owner && selected.type === type) {
+      selected = null;
+      render();
+      return;
+    }
     const legal = legalDropSquares(state, type, owner);
     selected = { kind: 'hand', owner, type, legal };
     render();

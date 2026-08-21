@@ -249,9 +249,13 @@ html, body {
   transition: transform 0.1s ease;
 }
 .hand-piece:hover { transform: translateY(-2px); }
+.hand-piece.gote:hover { transform: rotate(180deg) translateY(-2px); }
 .hand-piece.selected {
   outline: 3px solid var(--sel);
   outline-offset: 2px;
+}
+.hand-piece.gote {
+  transform: rotate(180deg);
 }
 .hand-piece .hp-name {
   font-family: var(--piece-font);
@@ -261,7 +265,8 @@ html, body {
 }
 .hand-piece.gote .hp-name {
   color: var(--piece-gote-color);
-  display: inline-block;
+}
+.hand-piece.gote .hp-count {
   transform: rotate(180deg);
 }
 .hp-count {
